@@ -8,8 +8,8 @@
     }
 </style>
 
-<div class="container">
-    <h3>{l s='Here are your CMS pages:' mod='barecms'}</h3>
+<div class="panel">
+    <div class="panel-heading">{l s='Your CMS pages' mod='barecms'}</div>
     <p>Click on the labels to edit them.</p>
     {foreach from=$pages item=page}
         <div class="row cms-entry">
