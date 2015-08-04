@@ -36,7 +36,8 @@
         var editor = CodeMirror(function (elt) {
           codeTextArea.parentNode.replaceChild(elt, codeTextArea);
         }, {
-            value: codeTextArea.value
+            value: codeTextArea.value,
+            lineWrapping: true
         });
     })
 </script>
