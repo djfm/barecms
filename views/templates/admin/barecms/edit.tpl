@@ -29,3 +29,14 @@
     </div>
 
 </form>
+
+<script>
+    $(document).ready(function () {
+        var codeTextArea = document.getElementById('code');
+        var editor = CodeMirror(function (elt) {
+          codeTextArea.parentNode.replaceChild(elt, codeTextArea);
+        }, {
+            value: codeTextArea.value
+        });
+    })
+</script>

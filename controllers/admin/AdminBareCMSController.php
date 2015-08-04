@@ -42,6 +42,9 @@ class AdminBareCMSController extends ModuleAdminController
 
     public function editRoute()
     {
+        $this->addJS(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'vendor', 'codemirror.min.js']));
+        $this->addCSS(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'vendor', 'codemirror.css']));
+
         $page = new CMS(Tools::getValue('id'), $this->context->language->id);
         return ['page' => $page];
     }
