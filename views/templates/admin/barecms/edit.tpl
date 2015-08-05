@@ -3,7 +3,7 @@
 
 <div class="panel">
     <div class="panel-heading">
-        Edit "{$page->meta_description}"
+        Edit "{$page->meta_title}"
     </div>
     <form id="page" class="form-horizontal" method="POST" action="{$update_url}">
         <div class="form-group">
@@ -11,7 +11,7 @@
                 {l s='Title' mod='barecms'}
             </label>
             <div class="col-lg-9">
-                <input class="form-control" type="text" id="title" name="title" value="{$page->meta_description}">
+                <input class="form-control" type="text" id="title" name="title" value="{$page->meta_title}">
             </div>
         </div>
         <div class="form-group">
@@ -42,26 +42,11 @@
 
 <script>
     $(document).ready(function () {
-        var codeTextArea = document.getElementById('code');
-        var editor = CodeMirror(function (elt) {
-          codeTextArea.parentNode.replaceChild(elt, codeTextArea);
-        }, {
-            value: codeTextArea.value,
-            lineWrapping: true
-        });
-        /*$('#page').submit(function (event) {
-            event.preventDefault();
-            var form = $(event.target);
-            var data = form.serializeArray();
-            var postData = {};
-            for (var i in data) {
-                if (data.hasOwnProperty(i)) {
-                    postData[data[i].name] = data[i].value;
-                }
-            }
-            postData.code = editor.getValue();
-            var url = form.attr('action');
-            console.log(url);*/
+        var codeTextArea    = document.getElementById('code');
+        var codeMirror      = CodeMirror.fromTextArea(codeTextArea, {
+            lineWrapping: true,
+            lineNumbers: true,
+            mode: 'htmlmixed'
         });
     })
 </script>

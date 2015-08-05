@@ -39,19 +39,38 @@ class AdminBareCMSController extends ModuleAdminController
     {
         $pages = array_map(function ($page) {
             $page['edit_url'] = $this->context->link->getAdminLink('AdminBareCMS') . '&route=edit&id=' . $page['id_cms'];
+            if (empty($page['meta_title'])) {
+                $page['meta_title'] = $this->l('[untitled page]');
+            }
             return $page;
         }, CMS::getCMSPages($this->context->language->id));
 
         return ['pages' => $pages];
     }
 
+    private function vendorPath()
+    {
+        return implode(DIRECTORY_SEPARATOR, array_merge(
+            [__DIR__, '..', '..', 'vendor'],
+            func_get_args()
+        ));
+    }
+
     public function editRoute()
     {
-        $this->addJS(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'vendor', 'codemirror.min.js']));
-        $this->addCSS(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'vendor', 'codemirror.css']));
+        $this->addJS($this->vendorPath('codemirror.js'));
+        $this->addJS($this->vendorPath('xml.js'));
+        $this->addJS($this->vendorPath('css.js'));
+        $this->addJS($this->vendorPath('javascript.js'));
+        $this->addJS($this->vendorPath('htmlmixed.js'));
+        $this->addCSS($this->vendorPath('codemirror.css'));
 
         $id     = Tools::getValue('id');
         $page   = new CMS($id, $this->context->language->id);
+
+        if (!$page->meta_title) {
+            $page->meta_title = $this->l('[untitled page]');
+        }
 
         return [
             'page' => $page,
