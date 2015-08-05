@@ -35,6 +35,25 @@ class AdminBareCMSController extends ModuleAdminController
         }
     }
 
+    private function vendorPath()
+    {
+        return implode(DIRECTORY_SEPARATOR, array_merge(
+            [__DIR__, '..', '..', 'vendor'],
+            func_get_args()
+        ));
+    }
+
+    private function addCodeMirror()
+    {
+        $this->addJS($this->vendorPath('codemirror.js'));
+        $this->addJS($this->vendorPath('xml.js'));
+        $this->addJS($this->vendorPath('css.js'));
+        $this->addJS($this->vendorPath('javascript.js'));
+        $this->addJS($this->vendorPath('htmlmixed.js'));
+        $this->addCSS($this->vendorPath('codemirror.css'));
+        return $this;
+    }
+
     public function indexRoute()
     {
         $pages = array_map(function ($page) {
@@ -45,25 +64,15 @@ class AdminBareCMSController extends ModuleAdminController
             return $page;
         }, CMS::getCMSPages($this->context->language->id));
 
-        return ['pages' => $pages];
-    }
-
-    private function vendorPath()
-    {
-        return implode(DIRECTORY_SEPARATOR, array_merge(
-            [__DIR__, '..', '..', 'vendor'],
-            func_get_args()
-        ));
+        return [
+            'pages' => $pages,
+            'edit_css_url' => $this->context->link->getAdminLink('AdminBareCMS') . '&route=editCSS'
+        ];
     }
 
     public function editRoute()
     {
-        $this->addJS($this->vendorPath('codemirror.js'));
-        $this->addJS($this->vendorPath('xml.js'));
-        $this->addJS($this->vendorPath('css.js'));
-        $this->addJS($this->vendorPath('javascript.js'));
-        $this->addJS($this->vendorPath('htmlmixed.js'));
-        $this->addCSS($this->vendorPath('codemirror.css'));
+        $this->addCodeMirror();
 
         $id     = Tools::getValue('id');
         $page   = new CMS($id, $this->context->language->id);
@@ -88,5 +97,13 @@ class AdminBareCMSController extends ModuleAdminController
 
         $page->save();
         $this->setRoute('edit');
+    }
+
+    public function editCSSRoute()
+    {
+        $this->addCodeMirror();
+        $css = 'ohai';
+
+        return ['css' => $css];
     }
 }

@@ -5,7 +5,7 @@
     <div class="panel-heading">
         Edit "{$page->meta_title}"
     </div>
-    <form id="page" class="form-horizontal" method="POST" action="{$update_url}">
+    <form class="form-horizontal" method="POST" action="{$update_url}">
         <div class="form-group">
             <label for="title" class="col-lg-3 control-label">
                 {l s='Title' mod='barecms'}
