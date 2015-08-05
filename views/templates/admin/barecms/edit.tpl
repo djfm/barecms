@@ -5,6 +5,9 @@
     <div class="panel-heading">
         Edit "{$page->meta_title}"
     </div>
+    <p class="lead">
+        Here you can edit the HTML of the page.<br>Inline styles are BAD. If you want to customize the appearance of the page, please head over to <a href="{$edit_css_url}" target="_blank">the CSS section</a>.
+    </p>
     <form class="form-horizontal" method="POST" action="{$update_url}">
         <div class="form-group">
             <label for="title" class="col-lg-3 control-label">

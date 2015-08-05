@@ -6,7 +6,7 @@
         Edit your CMS CSS
     </div>
     <p class="lead">Your CSS will be included on all CMS pages.</p>
-    <form class="form-horizontal" method="POST" action="">
+    <form class="form-horizontal" method="POST" action="{$update_css_url}">
         <div class="form-group">
             <label for="code" class="col-lg-3 control-label">
                 {l s='CSS' mod='barecms'}

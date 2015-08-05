@@ -43,6 +43,13 @@ class AdminBareCMSController extends ModuleAdminController
         ));
     }
 
+    private function userCSSPath()
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            __DIR__, '..', '..', 'data', 'user.css'
+        ]);
+    }
+
     private function addCodeMirror()
     {
         $this->addJS($this->vendorPath('codemirror.js'));
@@ -66,7 +73,7 @@ class AdminBareCMSController extends ModuleAdminController
 
         return [
             'pages' => $pages,
-            'edit_css_url' => $this->context->link->getAdminLink('AdminBareCMS') . '&route=editCSS'
+            'edit_css_url' => $this->editCSSURL()
         ];
     }
 
@@ -83,7 +90,8 @@ class AdminBareCMSController extends ModuleAdminController
 
         return [
             'page' => $page,
-            'update_url' => $this->context->link->getAdminLink('AdminBareCMS') . '&route=update&id=' . $id
+            'update_url' => $this->updateURL($id),
+            'edit_css_url' => $this->editCSSURL()
         ];
     }
 
@@ -99,11 +107,42 @@ class AdminBareCMSController extends ModuleAdminController
         $this->setRoute('edit');
     }
 
+    public function updateURL($id)
+    {
+        return $this->context->link->getAdminLink('AdminBareCMS') . '&route=update&id=' . $id;
+    }
+
     public function editCSSRoute()
     {
-        $this->addCodeMirror();
-        $css = 'ohai';
+        $cssPath = $this->userCSSPath();
 
-        return ['css' => $css];
+        $css = '';
+        if (file_exists($cssPath)) {
+            $css = file_get_contents($cssPath);
+        }
+
+        $this->addCodeMirror();
+
+        return [
+            'css' => $css,
+            'update_css_url' => $this->updateCSSURL()
+        ];
+    }
+
+    public function editCSSURL()
+    {
+        return $this->context->link->getAdminLink('AdminBareCMS') . '&route=editCSS';
+    }
+
+    public function updateCSSRoute()
+    {
+        $css = Tools::getValue('code');
+        file_put_contents($this->userCSSPath(), $css);
+        $this->setRoute('editCSS');
+    }
+
+    public function updateCSSURL()
+    {
+        return $this->context->link->getAdminLink('AdminBareCMS') . '&route=updateCSS';
     }
 }
