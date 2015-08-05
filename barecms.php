@@ -68,7 +68,7 @@ class BareCMS extends Module
 
 	public function install()
 	{
-		return parent::install() && $this->installTab();
+		return parent::install() && $this->installTab() && $this->registerHook('header');
 	}
 
 	public function uninstall()
@@ -79,5 +79,18 @@ class BareCMS extends Module
 	public function getContent()
 	{
 		Tools::redirectAdmin($this->context->link->getAdminLink('AdminBareCMS'));
+	}
+
+	public function hookHeader()
+	{
+		if ('CmsController' === get_class($this->context->controller)) {
+			$cssPath = implode(DIRECTORY_SEPARATOR, [
+				__DIR__,
+				'data', 'user.css'
+			]);
+			if (file_exists($cssPath)) {
+				$this->context->controller->addCSS($cssPath);
+			}
+		}
 	}
 }

@@ -8,10 +8,10 @@
     <p class="lead">Your CSS will be included on all CMS pages.</p>
     <form class="form-horizontal" method="POST" action="{$update_css_url}">
         <div class="form-group">
-            <label for="code" class="col-lg-3 control-label">
+            <label for="code" class="col-lg-2 control-label">
                 {l s='CSS' mod='barecms'}
             </label>
-            <div class="col-lg-9">
+            <div class="col-lg-10">
                 <textarea class="form-control" type="text" id="code" name="code">{$css}</textarea>
             </div>
         </div>
